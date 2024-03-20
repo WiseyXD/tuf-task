@@ -6,6 +6,7 @@ import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 export const prisma = new PrismaClient();
 import { CodeSnippetType } from "./services/types";
+import { CodeSnippetSchema } from "./services/validation";
 
 const app = express();
 const PORT = process.env.LOCALPORT || 8000;
@@ -47,6 +48,8 @@ app.post(
     ) => {
         try {
             const submission = req.body;
+            const rightInput = CodeSnippetSchema.safeParse(submission);
+            if (!rightInput.success) throw Error("Invalid Inputs ");
             const savedSubmission = await prisma.submittedCode.create({
                 data: submission,
             });
