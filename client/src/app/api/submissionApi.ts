@@ -1,17 +1,5 @@
+import { Submission, SubmissionPayload } from "@/lib/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Submission {
-    id?: number;
-    username: string;
-    codeLanguage: string; // Assuming codeLanguage can be any string for simplicity
-    stdin?: string | null; // Optional stdin field
-    sourceCode: string;
-    timestamp?: string; // Assuming timestamp is represented as a string for simplicity
-}
-
-interface SubmissionPayload {
-    submissions: Submission[];
-}
 
 // Define a service using a base URL and expected endpoints
 export const submissionApi = createApi({
