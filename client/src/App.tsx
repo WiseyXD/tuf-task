@@ -1,8 +1,20 @@
-function App() {
-    // Add Routing through tanstack router
-    const name = "Aryan";
+import { Routes, Route } from "react-router-dom";
+import SubmissionForm from "./pages/SubmissionForm";
+import Results from "./pages/Results";
+import Navbar from "./components/Navbar";
 
-    return <>{name}</>;
+function App() {
+    return (
+        <>
+            <Navbar />
+            <div className="w-[90%] mx-auto">
+                <Routes>
+                    <Route path="/" element={<SubmissionForm />} />
+                    <Route path="/results" element={<Results />} />
+                </Routes>
+            </div>
+        </>
+    );
 }
 
 export default App;
