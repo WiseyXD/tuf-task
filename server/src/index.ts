@@ -48,8 +48,10 @@ app.post(
     ) => {
         try {
             const submission = req.body;
+            console.log(submission);
             const rightInput = CodeSnippetSchema.safeParse(submission);
-            if (!rightInput.success) throw Error("Invalid Inputs ");
+            if (!rightInput.success)
+                throw Error("Invalid Inputs " + rightInput.error);
             const savedSubmission = await prisma.submittedCode.create({
                 data: submission,
             });
@@ -57,7 +59,8 @@ app.post(
             res.status(201).send(savedSubmission);
         } catch (error: any) {
             const message = error.message;
-            res.status(500).send({ message });
+            console.log(message);
+            res.status(500).json({ message });
         }
     }
 );

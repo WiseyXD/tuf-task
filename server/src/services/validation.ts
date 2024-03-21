@@ -5,12 +5,10 @@ const LanguageEnum = z.enum(["CPlusPlus", "Java", "JavaScript", "Python"]);
 
 // Define a Zod schema for the CodeSnippet model
 const CodeSnippetSchema = z.object({
-    id: z.number().int(),
     username: z.string(),
     codeLanguage: LanguageEnum,
-    stdin: z.string().optional(),
+    stdin: z.string().nullable(),
     sourceCode: z.string(),
-    timestamp: z.date(),
 });
 
 export { CodeSnippetSchema, LanguageEnum };

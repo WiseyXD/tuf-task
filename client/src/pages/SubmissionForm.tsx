@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -21,13 +21,17 @@ import {
 } from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
+
+import { Link, useNavigate } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
+import { useCreateNewSubmissionMutation } from "@/app/api/submissionApi";
+import { useState } from "react";
 
 const codeLanguages = [
     { value: "CPlusPlus", text: "C++" },
     { value: "Java", text: "Java" },
-    { value: "Javascript", text: "Javascript" },
+    { value: "JavaScript", text: "Javascript" },
     { value: "Python", text: "Python" },
 ];
 
@@ -38,28 +42,46 @@ const submissionSchema = z.object({
     codeLanguage: z.string({
         required_error: "Please select a Language.",
     }),
-    sourceCode: z.string({
-        required_error: "Source code area can not be empty.",
-    }),
-    stdin: z.string(),
+    sourceCode: z.string().min(4, "Source code is required"),
+    stdin: z.string().nullable().optional(),
 });
 
 export default function SubmissionForm() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [createSubmission] = useCreateNewSubmissionMutation();
+    const navigate = useNavigate();
+    const { toast } = useToast();
     const form = useForm<z.infer<typeof submissionSchema>>({
         resolver: zodResolver(submissionSchema),
         defaultValues: {
             username: "",
             codeLanguage: "",
             sourceCode: "",
-            stdin: "",
+            stdin: null,
         },
     });
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof submissionSchema>) {
+    async function onSubmit(values: z.infer<typeof submissionSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values);
+        setIsLoading(true);
+        const { data, isFetching, isError } = await createSubmission(values);
+        if (isFetching) return null;
+        if (isError) {
+            toast({
+                title: "Failed creating a new entry",
+                variant: "destructive",
+            });
+            setIsLoading(false);
+        }
+        toast({
+            title: "Created a new entry",
+        });
+        console.log(data);
+        setIsLoading(false);
+        form.reset();
+        navigate("/results");
     }
     return (
         <div>

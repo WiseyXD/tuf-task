@@ -6,7 +6,7 @@ interface Submission {
     codeLanguage: string; // Assuming codeLanguage can be any string for simplicity
     stdin?: string | null; // Optional stdin field
     sourceCode: string;
-    timestamp: string; // Assuming timestamp is represented as a string for simplicity
+    timestamp?: string; // Assuming timestamp is represented as a string for simplicity
 }
 
 interface SubmissionPayload {
@@ -29,6 +29,7 @@ export const submissionApi = createApi({
                 method: "POST",
                 body: credential,
             }),
+            invalidatesTags: ["SubmissionCodes"],
         }),
     }),
 });
