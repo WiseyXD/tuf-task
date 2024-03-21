@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import SubmissionForm from "./pages/SubmissionForm";
 import Results from "./pages/Results";
 import Navbar from "./components/Navbar";
-
+import { ThemeProvider } from "@/components/theme-provider";
 function App() {
     return (
         <>

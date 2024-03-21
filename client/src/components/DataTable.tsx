@@ -17,6 +17,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { useDispatch } from "react-redux";
+import { setCurrentCode } from "@/app/slices/currentCode";
+import { Submission } from "@/lib/types";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -26,13 +29,15 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
     columns,
     data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<Submission, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
     });
+
+    const disptach = useDispatch();
 
     return (
         <div>
@@ -62,6 +67,10 @@ export function DataTable<TData, TValue>({
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
+                                    role="button"
+                                    onClick={() => {
+                                        disptach(setCurrentCode(row.original));
+                                    }}
                                     data-state={
                                         row.getIsSelected() && "selected"
                                     }
