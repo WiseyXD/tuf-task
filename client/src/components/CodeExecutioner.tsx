@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/resizable";
 import { Submission } from "@/lib/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ProgrammingLanguage } from "@/lib/types";
+
 import { findLanguageId } from "@/lib/utils/index";
 
 export default function CodeExecutioner() {

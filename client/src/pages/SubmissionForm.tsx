@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateNewSubmissionMutation } from "@/app/api/submissionApi";
 import { useState } from "react";
@@ -66,6 +66,7 @@ export default function SubmissionForm() {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         setIsLoading(true);
+        // @ts-ignore
         const { data, isFetching, isError } = await createSubmission(values);
         if (isFetching) return null;
         if (isError) {
@@ -185,6 +186,7 @@ export default function SubmissionForm() {
                                         Standard Input , if any.
                                     </FormLabel>
                                     <FormControl>
+                                        {/* @ts-ignore */}
                                         <Textarea
                                             placeholder="[2,5,7,321,41,334]"
                                             className=""
@@ -197,7 +199,9 @@ export default function SubmissionForm() {
                             )}
                         />
                     </div>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" disabled={isLoading}>
+                        Submit
+                    </Button>
                 </form>
             </Form>
         </div>

@@ -19,14 +19,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { setCurrentCode } from "@/app/slices/currentCode";
-import { Submission } from "@/lib/types";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<Submission, TValue>({
     columns,
     data,
 }: DataTableProps<Submission, TValue>) {
@@ -69,6 +68,7 @@ export function DataTable<TData, TValue>({
                                     key={row.id}
                                     role="button"
                                     onClick={() => {
+                                        // @ts-ignore
                                         disptach(setCurrentCode(row.original));
                                     }}
                                     data-state={
