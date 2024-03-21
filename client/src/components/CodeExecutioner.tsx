@@ -44,8 +44,8 @@ export default function CodeExecutioner() {
             return;
         }
         console.log(executedOutput);
-        //     setOutput(executedOutput.stdout);
-        // setStdError(executedOutput.stderr);
+        if (executedOutput.stdout) setOutput(executedOutput.stdout);
+        if (executedOutput.stderr) setStdError(executedOutput.stderr);
         setIsLoading(false);
     }
 
